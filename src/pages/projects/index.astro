@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import Link from "@components/Link.astro";
+
+// Get all projects sorted by date
+const projects = (await getCollection("projects"))
+  .filter((project) => !project.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Group by year
+const projectsByYear = projects.reduce(
+  (acc, project) => {
+    const year = project.data.date.getFullYear();
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(project);
+    return acc;
+  },
+  {} as Record<number, typeof projects>,
+);
+
+const years = Object.keys(projectsByYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<PageLayout
+  title="Projects"
+  description="A showcase of my personal and professional projects"
+>
+  <section class="animate py-12">
+    <h1 class="text-3xl font-semibold text-primary mb-4">Projects</h1>
+
+    <p class="text-primary mb-8">
+      A collection of projects I've built, ranging from personal experiments to
+      production applications.
+    </p>
+
+    {
+      projects.length > 0 ? (
+        <div class="space-y-12">
+          {years.map((year) => (
+            <div class="animate">
+              <h2 class="text-lg font-semibold text-secondary mb-4">{year}</h2>
+              <div class="flex flex-col">
+                {projectsByYear[Number(year)].map((project) => (
+                  <ArrowCard
+                    href={`/projects/${project.slug}`}
+                    title={project.data.title}
+                    description={project.data.description}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="text-secondary text-center py-12 italic">
+          No projects yet. Check back soon!
+        </p>
+      )
+    }
+  </section>
+</PageLayout>

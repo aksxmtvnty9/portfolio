@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import Link from '@components/Link.astro';
+
+// Get all work experiences sorted by date
+const works = (await getCollection('work'))
+  .filter(work => !work.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Helper function to format date range
+function formatDateRange(startDate: Date, endDate: Date | string | undefined): string {
+  const start = new Date(startDate).toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric',
+    year: 'numeric' 
+  });
+  
+  if (!endDate) {
+    return `${start} - Present`;
+  }
+  
+  if (endDate instanceof Date) {
+    const end = new Date(endDate).toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: 'numeric' 
+    });
+    return `${start} - ${end}`;
+  }
+  
+  return `${start} - ${endDate}`;
+}
+---
+
+<PageLayout title="Work Experience" description="My professional journey and work experience">
+  <section class="animate py-12">
+    <h1 class="text-3xl font-semibold text-primary mb-4">
+      Work Experience
+    </h1>
+
+    <p class="text-primary mb-12">
+      A timeline of my professional journey, including full-time roles and internships.
+    </p>
+
+    <div class="space-y-8">
+      {works.map((work, index) => (
+        <div class="relative">
+          <!-- Connecting line -->
+          {index < works.length - 1 && (
+            <div class="absolute left-8 top-full w-px h-8 bg-secondary/50"></div>
+          )}
+          
+          <!-- Timeline dot -->
+          <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-accent border-4 border-primary z-10"></div>
+          
+          <!-- Card -->
+          <Link href={`/work/${work.slug}`} class="block group ml-12">
+            <div class="bg-secondary rounded-lg p-6 shadow-sm border border-secondary transition-all duration-200">
+              {/* Header with date and company */}
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                <div>
+                  <h2 class="text-xl font-semibold text-primary group-hover:text-accent transition-colors">
+                    {work.data.title}
+                  </h2>
+
+                  <p class="text-sm text-secondary mt-1 italic">
+                    {work.data.description}
+                  </p>
+                </div>
+                
+                <span class="text-sm text-secondary font-medium whitespace-nowrap">
+                  {formatDateRange(work.data.date, work.data.endDate)}
+                </span>
+              </div>
+              
+              {/* Location */}
+              <p class="text-sm text-secondary mb-4">
+                📍 {work.data.location}
+              </p>
+              
+              {/* Short Summary */}
+              <p class="text-primary mb-4 leading-relaxed">
+                {work.data.shortSummary}
+              </p>
+              
+              {/* Technologies */}
+              <div class="flex flex-wrap gap-2">
+                {work.data.technologies.slice(0, 5).map((tech) => (
+                  <span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-secondary border border-theme/20">
+                    {tech}
+                  </span>
+                ))}
+                {work.data.technologies.length > 5 && (
+                  <span class="px-3 py-1 text-xs text-secondary">
+                    +{work.data.technologies.length - 5} more
+                  </span>
+                )}
+              </div>
+            </div>
+          </Link>
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>

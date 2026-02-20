@@ -1,0 +1,47 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import BackToPrev from "@components/BackToPrev.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import { readingTime } from "@lib/utils";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }));
+}
+
+type Props = CollectionEntry<"blog">;
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<PageLayout
+  title={`${post.data.title} - Blog`}
+  description={post.data.description}
+>
+  <article class="animate py-12">
+    <BackToPrev href="/blog" text="Blog" />
+
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-primary mb-4">
+        {post.data.title}
+      </h1>
+
+      <div class="flex items-center gap-4 text-sm text-secondary">
+        <FormattedDate date={post.data.date} />
+
+        <span>•</span>
+
+        <span>{readingTime((await Astro.slots.render("default")) || "")}</span>
+      </div>
+    </header>
+
+    <div class="prose dark:prose-invert max-w-none">
+      <Content />
+    </div>
+  </article>
+</PageLayout>

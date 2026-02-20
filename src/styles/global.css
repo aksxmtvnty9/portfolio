@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", ui-serif, Georgia, serif;
+}
+
+/* CSS Custom Properties for Theme Colors */
+:root {
+  /* Light mode colors - Warm Cream & Gold */
+  --bg-primary: #FAF7F2;
+  --bg-secondary: #F2EDE6;
+  --bg-card: #FFFFFF;
+  --text-primary: #2D2822;
+  --text-secondary: #6B6560;
+  --text-muted: #8A8178;
+  --accent: #B8860B;
+  --border: #E5E0D8;
+}
+
+html.dark {
+  /* Dark mode colors - Warm Black & Gold */
+  --bg-primary: #0C0A09;
+  --bg-secondary: #1A1714;
+  --bg-card: #1A1714;
+  --text-primary: #F2EDE6;
+  --text-secondary: #8A8178;
+  --text-muted: #6B6560;
+  --accent: #D4AF37;
+  --border: #3D3833;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased font-sans;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Smooth transitions for theme changes */
+body,
+header,
+footer,
+main,
+section,
+article,
+div,
+p,
+h1, h2, h3, h4, h5, h6,
+span,
+a,
+button,
+li,
+ul,
+ol {
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Animation utilities */
+.animate {
+  @apply opacity-0 translate-y-3;
+  @apply transition-all duration-700 ease-out;
+}
+
+.animate.show {
+  @apply opacity-100 translate-y-0;
+}
+
+/* Scroll-triggered visibility */
+html #back-to-top {
+  @apply opacity-0 pointer-events-none;
+  @apply transition-opacity duration-300;
+}
+
+html.scrolled #back-to-top {
+  @apply opacity-100 pointer-events-auto;
+}
+
+/* Theme transition suppression during toggle */
+.theme-transition * {
+  transition: none !important;
+}
+
+/* Link styles - no underline, accent color on hover */
+a {
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: color 200ms ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Prose styling for content */
+article {
+  @apply max-w-full prose prose-img:mx-auto;
+  @apply prose-headings:font-semibold prose-p:font-serif;
+}
+
+article a {
+  color: var(--text-primary);
+}
+
+article a:hover {
+  color: var(--accent);
+}
+
+/* Utility classes for colors */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-card {
+  background-color: var(--bg-card);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+}
+
+.border-theme {
+  border-color: var(--border);
+}
+
+.border-secondary {
+  border-color: var(--text-secondary);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--text-secondary);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-primary);
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--accent);
+  color: #FFFFFF;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .animate {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  
+  .animate.show {
+    opacity: 1;
+    transform: none;
+  }
+  
+  body,
+  header,
+  footer,
+  main,
+  section,
+  article,
+  div,
+  p,
+  h1, h2, h3, h4, h5, h6,
+  span,
+  a,
+  button,
+  li,
+  ul,
+  ol {
+    transition: none !important;
+    animation: none !important;
+  }
+}

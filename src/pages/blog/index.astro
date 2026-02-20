@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import { readingTime } from "@lib/utils";
+
+// Get all blog posts sorted by date
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Group by year
+const postsByYear = posts.reduce(
+  (acc, post) => {
+    const year = post.data.date.getFullYear();
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(post);
+    return acc;
+  },
+  {} as Record<number, typeof posts>,
+);
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<PageLayout
+  title="Blog"
+  description="Thoughts, tutorials, and insights on software development"
+>
+  <section class="animate py-12">
+    <h1 class="text-3xl font-semibold text-primary mb-4">Blog</h1>
+
+    <p class="text-primary mb-8">
+      Thoughts, tutorials, and insights on software development, frontend
+      engineering, and technology.
+    </p>
+
+    {
+      posts.length > 0 ? (
+        <div class="space-y-12">
+          {years.map((year) => (
+            <div class="animate">
+              <h2 class="text-lg font-semibold text-secondary mb-4">{year}</h2>
+
+              <div class="flex flex-col">
+                {postsByYear[Number(year)].map((post) => (
+                  <ArrowCard
+                    href={`/blog/${post.slug}`}
+                    title={post.data.title}
+                    description={`${post.data.description} • ${post.data.date.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="text-secondary text-center py-12 italic">
+          No blog posts yet. Check back soon!
+        </p>
+      )
+    }
+  </section>
+</PageLayout>

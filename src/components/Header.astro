@@ -1,0 +1,44 @@
+---
+import { NAV_LINKS, SITE } from "@consts";
+import Link from "./Link.astro";
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-primary/80">
+  <nav class="mx-auto max-w-2xl px-4 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo/Site Name with text shadow on hover -->
+      <Link
+        href="/"
+        class="group text-lg font-semibold transition-all duration-150"
+      >
+        <span
+          class="text-primary group-hover:text-accent group-hover:[text-shadow:0_0_12px_rgba(212,175,55,0.5)] transition-all duration-150"
+        >
+          {SITE.NAME}
+        </span>
+      </Link>
+
+      <!-- Navigation Links with separator -->
+      <div class="flex items-center gap-2">
+        {
+          NAV_LINKS.map((link, index) => (
+            <>
+              <Link
+                href={link.href}
+                class="text-sm text-primary hover:text-accent transition-colors duration-200"
+              >
+                {link.text}
+              </Link>
+              {index < NAV_LINKS.length - 1 && (
+                <span class="text-secondary">/</span>
+              )}
+            </>
+          ))
+        }
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Spacer for fixed header -->
+<div class="h-16"></div>

@@ -1,0 +1,79 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import BackToPrev from "@components/BackToPrev.astro";
+import { dateRange } from "@lib/utils";
+
+export async function getStaticPaths() {
+  const works = await getCollection("work");
+  return works.map((work) => ({
+    params: { slug: work.slug },
+    props: work,
+  }));
+}
+
+type Props = CollectionEntry<"work">;
+
+const work = Astro.props;
+---
+
+<PageLayout
+  title={`${work.data.title} - Work Experience`}
+  description={work.data.description}
+>
+  <section class="animate py-12">
+    <BackToPrev href="/work" text="Work Experience" />
+
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-primary mb-2">
+        {work.data.title}
+      </h1>
+
+      <p class="text-lg font-medium text-primary mb-2">
+        {work.data.description}
+      </p>
+
+      <p class="text-sm text-secondary">
+        {dateRange(work.data.date, work.data.endDate)} • {work.data.location}
+      </p>
+    </header>
+
+    <!-- Short Summary Section -->
+    <div class="mb-8">
+      <p class="text-lg text-primary">
+        {work.data.shortSummary}
+      </p>
+    </div>
+
+    <!-- Key Achievements -->
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold text-primary mb-4">Key Achievements</h2>
+
+      <ul class="space-y-3">
+        {
+          work.data.summary.map((item) => (
+            <li class="flex items-start gap-3 text-primary">
+              <span class="text-accent mt-1">•</span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Technologies -->
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold text-primary mb-4">Technologies</h2>
+
+      <div class="flex flex-wrap gap-2">
+        {
+          work.data.technologies.map((tech) => (
+            <span class="px-3 py-1 text-sm rounded-full bg-secondary border border-theme text-primary">
+              {tech}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</PageLayout>

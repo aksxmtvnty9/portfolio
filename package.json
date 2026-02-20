@@ -1,0 +1,26 @@
+{
+  "name": "--typescript",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/lora": "^5.2.8",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.0",
+    "astro": "^5.17.1",
+    "clsx": "^2.1.1",
+    "sharp": "^0.34.5",
+    "simple-icons": "^16.9.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.0"
+  }
+}

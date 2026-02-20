@@ -1,0 +1,19 @@
+---
+import { cn } from '@lib/utils';
+
+interface Props {
+  href: string;
+  external?: boolean;
+  class?: string;
+}
+
+const { href, external = false, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class={cn("transition-colors", className)}
+  {...external && { target: "_blank", rel: "noopener noreferrer" }}
+>
+  <slot />
+</a>

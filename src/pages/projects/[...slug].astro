@@ -1,0 +1,89 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import BackToPrev from "@components/BackToPrev.astro";
+import Link from "@components/Link.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: project,
+  }));
+}
+
+type Props = CollectionEntry<"projects">;
+
+const project = Astro.props;
+const { Content } = await project.render();
+---
+
+<PageLayout
+  title={`${project.data.title} - Project`}
+  description={project.data.description}
+>
+  <section class="animate py-12">
+    <BackToPrev href="/projects" text="Projects" />
+
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-primary mb-2">
+        {project.data.title}
+      </h1>
+      <p class="text-primary mb-4">
+        {project.data.description}
+      </p>
+      <div class="flex items-center gap-4 text-sm text-secondary mb-4">
+        <FormattedDate date={project.data.date} />
+      </div>
+      <div class="flex items-center gap-4">
+        {
+          project.data.github && (
+            <Link
+              href={project.data.github}
+              external
+              class="text-sm text-primary hover:text-accent transition-colors"
+            >
+              View on GitHub →
+            </Link>
+          )
+        }
+        {
+          project.data.demo && (
+            <Link
+              href={project.data.demo}
+              external
+              class="text-sm text-primary hover:text-accent transition-colors"
+            >
+              Live Demo →
+            </Link>
+          )
+        }
+      </div>
+    </header>
+
+    <!-- Technologies -->
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold text-primary mb-4">Technologies</h2>
+
+      <div class="flex flex-wrap gap-2">
+        {
+          project.data.technologies.map((tech) => (
+            <span class="px-3 py-1 text-sm rounded-full bg-secondary border border-theme text-primary">
+              {tech}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Content -->
+    {
+      Content && (
+        <article class="prose dark:prose-invert max-w-none">
+          <Content />
+        </article>
+      )
+    }
+  </section>
+</PageLayout>

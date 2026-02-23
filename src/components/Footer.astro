@@ -17,20 +17,20 @@ import { SITE } from "@consts";
     <!-- Row 1: Let's Connect + Performance Stats -->
     <div class="flex justify-between items-start mb-8">
       <div>
-        <h3 class="text-lg font-semibold mb-1 text-[#3E2723]">Let's Connect</h3>
-        <p class="text-sm text-[#5D4037]">Interested in working together?</p>
+        <h3 class="text-lg font-semibold mb-1 text-[#2A1E14]">Let's Connect</h3>
+        <p class="text-sm text-[#3E2723]">Interested in working together?</p>
       </div>
     </div>
   </div>
 
   <div class="relative z-10 mx-auto max-w-2xl w-full px-4 mb-4">
     <div class="flex justify-between items-center">
-      <p class="text-[#6D4C41] text-sm">
+      <p class="text-[#4A3728] text-sm">
         © {new Date().getFullYear()}
         {SITE.NAME}
       </p>
 
-      <span id="load-time" class="text-sm text-[#5D4037] hidden md:inline lg:inline"
+      <span id="load-time" class="text-sm text-[#3E2723] hidden md:inline lg:inline"
         >Loaded in --</span
       >
 
@@ -38,7 +38,7 @@ import { SITE } from "@consts";
       <div class="flex items-center gap-1">
         <button
           id="theme-light"
-          class="p-2 rounded-md text-[#4A3728] hover:text-[#3E2723] hover:bg-[#3E2723]/10 transition-colors"
+          class="p-2 rounded-md text-[#3E2723] hover:text-[#2A1E14] hover:bg-[#2A1E14]/10 transition-colors"
           aria-label="Light theme"
           title="Light"
         >
@@ -66,7 +66,7 @@ import { SITE } from "@consts";
         </button>
         <button
           id="theme-dark"
-          class="p-2 rounded-md text-[#4A3728] hover:text-[#3E2723] hover:bg-[#3E2723]/10 transition-colors"
+          class="p-2 rounded-md text-[#3E2723] hover:text-[#2A1E14] hover:bg-[#2A1E14]/10 transition-colors"
           aria-label="Dark theme"
           title="Dark"
         >
@@ -86,7 +86,7 @@ import { SITE } from "@consts";
         </button>
         <button
           id="theme-system"
-          class="p-2 rounded-md text-[#4A3728] hover:text-[#3E2723] hover:bg-[#3E2723]/10 transition-colors"
+          class="p-2 rounded-md text-[#3E2723] hover:text-[#2A1E14] hover:bg-[#2A1E14]/10 transition-colors"
           aria-label="System theme"
           title="System"
         >
@@ -109,7 +109,7 @@ import { SITE } from "@consts";
       </div>
     </div>
 
-    <div id="load-time" class="text-sm w-full text-center md:hidden lg:hidden text-[#5D4037]">
+    <div id="load-time" class="text-sm w-full text-center md:hidden lg:hidden text-[#3E2723]">
       Loaded in --
     </div>
   </div>
@@ -175,11 +175,11 @@ import { SITE } from "@consts";
       const button = buttons[key];
       if (button) {
         if (key === theme) {
-          button.classList.add("text-[#3E2723]", "bg-[#3E2723]/20");
-          button.classList.remove("text-[#4A3728]");
+          button.classList.add("text-[#2A1E14]", "bg-[#2A1E14]/20");
+          button.classList.remove("text-[#3E2723]");
         } else {
-          button.classList.remove("text-[#3E2723]", "bg-[#3E2723]/20");
-          button.classList.add("text-[#4A3728]");
+          button.classList.remove("text-[#2A1E14]", "bg-[#2A1E14]/20");
+          button.classList.add("text-[#3E2723]");
         }
       }
     });

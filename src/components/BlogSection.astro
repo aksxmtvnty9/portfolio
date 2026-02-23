@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import Link from "./Link.astro";
+
+// Get recent blog posts (3 most recent)
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<section class="animate py-8">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-semibold text-primary">Recent Posts</h2>
+    <Link
+      href="/blog"
+      class="text-sm text-secondary hover:text-accent transition-colors"
+    >
+      View all →
+    </Link>
+  </div>
+  {
+    posts.length > 0 ? (
+      <div class="space-y-4">
+        {posts.map((post) => (
+          <Link href={`/blog/${post.slug}`} class="block group">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <h3 class="font-medium text-primary group-hover:text-accent transition-colors">
+                {post.data.title}
+              </h3>
+              <span class="text-sm text-secondary">
+                {new Date(post.data.date).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <p class="text-sm text-primary mt-1">{post.data.description}</p>
+          </Link>
+        ))}
+      </div>
+    ) : (
+      <p class="text-secondary text-sm italic">
+        No blog posts yet. Check back soon!
+      </p>
+    )
+  }
+</section>

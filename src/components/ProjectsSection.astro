@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import Link from "./Link.astro";
+
+// Get recent projects (3 most recent)
+const projects = (await getCollection("projects"))
+  .filter((project) => !project.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<section class="animate pt-8 pb-16">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-semibold text-primary">Recent Projects</h2>
+    <Link
+      href="/projects"
+      class="text-sm text-secondary hover:text-accent transition-colors"
+    >
+      View all →
+    </Link>
+  </div>
+  {
+    projects.length > 0 ? (
+      <div class="space-y-4">
+        {projects.map((project) => (
+          <Link href={`/projects/${project.slug}`} class="block group">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <h3 class="font-medium text-primary group-hover:text-accent transition-colors">
+                {project.data.title}
+              </h3>
+              <span class="text-sm text-secondary">
+                {new Date(project.data.date).toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <p class="text-sm text-primary mt-1">{project.data.description}</p>
+          </Link>
+        ))}
+      </div>
+    ) : (
+      <p class="text-secondary text-sm italic">
+        No projects yet. Check back soon!
+      </p>
+    )
+  }
+</section>

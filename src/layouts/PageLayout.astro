@@ -1,10 +1,11 @@
 ---
 import Head from "@components/Head.astro";
 import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
+import Footer from "@components/footer/index.astro";
 import Container from "@components/Container.astro";
 import BackToTop from "@components/BackToTop.astro";
 import { SITE } from "@consts";
+import Divider from "@components/Divider.astro";
 
 interface Props {
   title?: string;
@@ -27,6 +28,7 @@ const { title = SITE.NAME, description = SITE.DESCRIPTION } = Astro.props;
       </Container>
     </main>
 
+    <Divider />
     <Footer />
 
     <BackToTop />

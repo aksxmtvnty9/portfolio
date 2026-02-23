@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import Link from "./Link.astro";
+
+// Get recent work (2 most recent)
+const works = (await getCollection('work'))
+  .filter(work => !work.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
+---
+
+<section class="animate py-12">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-xl font-semibold text-primary">Work Experience</h2>
+      <Link href="/work" class="text-sm text-secondary hover:text-accent transition-colors">
+        View full timeline →
+      </Link>
+    </div>
+    
+    <div class="space-y-8">
+      {works.map((work, index) => (
+        <div class="relative">
+          <!-- Connecting line -->
+          {index < works.length - 1 && (
+            <div class="absolute left-8 top-full w-px h-8 bg-secondary/50"></div>
+          )}
+          
+          <!-- Timeline dot -->
+          <div class="absolute left-6 top-6 w-4 h-4 rounded-full bg-accent border-4 border-primary z-10"></div>
+          
+          <!-- Card -->
+          <Link href={`/work/${work.slug}`} class="block group ml-12">
+            <div class="bg-secondary rounded-lg p-6 shadow-sm border border-secondary hover:shadow-[0_4px_20px_rgba(182,176,159,0.25)] transition-all duration-200">
+              {/* Header with date and company */}
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                <div>
+                  <h3 class="text-lg font-semibold text-primary group-hover:text-accent transition-colors">
+                    {work.data.title}
+                  </h3>
+                  <p class="text-sm text-secondary mt-1 italic">
+                    {work.data.description}
+                  </p>
+                </div>
+                <span class="text-sm text-secondary font-medium whitespace-nowrap">
+                  {new Date(work.data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} - {work.data.endDate instanceof Date ? new Date(work.data.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : work.data.endDate || 'Current'}
+                </span>
+              </div>
+              
+              {/* Location */}
+              <p class="text-sm text-secondary mb-3">
+                📍 {work.data.location}
+              </p>
+              
+              {/* Short Summary */}
+              <p class="text-primary text-sm leading-relaxed">
+                {work.data.shortSummary}
+              </p>
+            </div>
+          </Link>
+        </div>
+      ))}
+    </div>
+  </section>

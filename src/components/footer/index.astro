@@ -1,0 +1,27 @@
+---
+import { SITE } from "@consts";
+import ThemeToggleSection from "./ThemeToggleSection.astro";
+---
+
+<footer class="relative max-h-2xl my-4">
+  <div class="relative mx-auto max-w-2xl w-full px-4">
+    <div class="flex justify-between items-center">
+      <p class="text-sm text-secondary">
+        © {new Date().getFullYear()}
+        {SITE.NAME}
+      </p>
+
+      <span
+        id="load-time"
+        class="text-sm text-secondary hidden md:inline lg:inline"
+        >Loaded in --</span
+      >
+
+      <ThemeToggleSection />
+    </div>
+
+    <div id="load-time" class="text-sm w-full text-center md:hidden lg:hidden">
+      Loaded in --
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,129 @@
+<div class="flex items-center gap-1">
+  <button
+    id="theme-light"
+    class="p-2 rounded-md cursor-pointer text-secondary hover:bg-[#6B6560]/20 transition-colors"
+    aria-label="Light theme"
+    title="Light"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </button>
+  <button
+    id="theme-dark"
+    class="p-2 rounded-md cursor-pointer text-secondary hover:bg-[#6B6560]/20 transition-colors"
+    aria-label="Dark theme"
+    title="Dark"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+  <button
+    id="theme-system"
+    class="p-2 rounded-md cursor-pointer text-secondary hover:bg-[#6B6560]/20 transition-colors"
+    aria-label="System theme"
+    title="System"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+      <line x1="8" y1="21" x2="16" y2="21"></line>
+      <line x1="12" y1="17" x2="12" y2="21"></line>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+  function setTheme(theme) {
+    localStorage.theme = theme;
+
+    const dark =
+      theme === "dark" ||
+      (theme === "system" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
+    updateActiveButton(theme);
+  }
+
+  function updateActiveButton(theme) {
+    const buttons = {
+      light: document.getElementById("theme-light"),
+      dark: document.getElementById("theme-dark"),
+      system: document.getElementById("theme-system"),
+    };
+
+    Object.keys(buttons).forEach(function (key) {
+      const button = buttons[key];
+      if (button) {
+        if (key === theme) {
+          button.classList.add("text-[#2A1E14]", "bg-[#6B6560]/20");
+          button.classList.remove("text-[#3E2723]");
+        } else {
+          button.classList.remove("text-[#2A1E14]", "bg-[#6B6560]/20");
+          button.classList.add("text-[#3E2723]");
+        }
+      }
+    });
+  }
+
+  const currentTheme = localStorage.theme || "system";
+  updateActiveButton(currentTheme);
+
+  document
+    .getElementById("theme-light")
+    ?.addEventListener("click", function () {
+      setTheme("light");
+    });
+  document.getElementById("theme-dark")?.addEventListener("click", function () {
+    setTheme("dark");
+  });
+  document
+    .getElementById("theme-system")
+    ?.addEventListener("click", function () {
+      setTheme("system");
+    });
+</script>

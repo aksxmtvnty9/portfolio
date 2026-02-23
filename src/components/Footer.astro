@@ -2,7 +2,9 @@
 import { SITE } from "@consts";
 ---
 
-<footer class="relative min-h-[550px]">
+<footer
+  class="relative max-h-2xl lg:min-h-[550px] md:min-h-[420px] min-h-[350px] flex flex-col justify-end-safe gap-8"
+>
   <!-- Background: Full-width mountain SVG -->
   <img
     src="/images/mountain-bg.svg"
@@ -11,28 +13,32 @@ import { SITE } from "@consts";
   />
 
   <!-- Content overlay -->
-  <div class="relative z-10 mx-auto max-w-2xl px-4">
+  <div class="relative z-10 mx-auto max-w-2xl w-full px-4">
     <!-- Row 1: Let's Connect + Performance Stats -->
     <div class="flex justify-between items-start mb-8">
       <div>
-        <h3 class="text-lg font-semibold mb-1">Let's Connect</h3>
-        <p class="text-sm">Interested in working together?</p>
+        <h3 class="text-lg font-semibold mb-1 text-[#3E2723]">Let's Connect</h3>
+        <p class="text-sm text-[#5D4037]">Interested in working together?</p>
       </div>
-      <span id="load-time" class="text-sm">Loaded in --</span>
     </div>
+  </div>
 
-    <!-- Row 2: Copyright + Theme Toggles -->
+  <div class="relative z-10 mx-auto max-w-2xl w-full px-4 mb-4">
     <div class="flex justify-between items-center">
-      <p class="text-[#6B6560] text-sm">
+      <p class="text-[#6D4C41] text-sm">
         © {new Date().getFullYear()}
         {SITE.NAME}
       </p>
+
+      <span id="load-time" class="text-sm text-[#5D4037] hidden md:inline lg:inline"
+        >Loaded in --</span
+      >
 
       <!-- Theme Toggles -->
       <div class="flex items-center gap-1">
         <button
           id="theme-light"
-          class="p-2 rounded-md text-[#6B6560] hover:text-[#2D2822] hover:bg-[#2D2822]/10 transition-colors"
+          class="p-2 rounded-md text-[#4A3728] hover:text-[#3E2723] hover:bg-[#3E2723]/10 transition-colors"
           aria-label="Light theme"
           title="Light"
         >
@@ -60,7 +66,7 @@ import { SITE } from "@consts";
         </button>
         <button
           id="theme-dark"
-          class="p-2 rounded-md text-[#6B6560] hover:text-[#2D2822] hover:bg-[#2D2822]/10 transition-colors"
+          class="p-2 rounded-md text-[#4A3728] hover:text-[#3E2723] hover:bg-[#3E2723]/10 transition-colors"
           aria-label="Dark theme"
           title="Dark"
         >
@@ -80,7 +86,7 @@ import { SITE } from "@consts";
         </button>
         <button
           id="theme-system"
-          class="p-2 rounded-md text-[#6B6560] hover:text-[#2D2822] hover:bg-[#2D2822]/10 transition-colors"
+          class="p-2 rounded-md text-[#4A3728] hover:text-[#3E2723] hover:bg-[#3E2723]/10 transition-colors"
           aria-label="System theme"
           title="System"
         >
@@ -101,6 +107,10 @@ import { SITE } from "@consts";
           </svg>
         </button>
       </div>
+    </div>
+
+    <div id="load-time" class="text-sm w-full text-center md:hidden lg:hidden text-[#5D4037]">
+      Loaded in --
     </div>
   </div>
 </footer>
@@ -165,11 +175,11 @@ import { SITE } from "@consts";
       const button = buttons[key];
       if (button) {
         if (key === theme) {
-          button.classList.add("text-[#2D2822]", "bg-[#2D2822]/20");
-          button.classList.remove("text-[#6B6560]");
+          button.classList.add("text-[#3E2723]", "bg-[#3E2723]/20");
+          button.classList.remove("text-[#4A3728]");
         } else {
-          button.classList.remove("text-[#2D2822]", "bg-[#2D2822]/20");
-          button.classList.add("text-[#6B6560]");
+          button.classList.remove("text-[#3E2723]", "bg-[#3E2723]/20");
+          button.classList.add("text-[#4A3728]");
         }
       }
     });

@@ -1,7 +1,7 @@
 {
-  "name": "--typescript",
+  "name": "@aksxmtvnty9/portfolio",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,8 +12,6 @@
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
-    "@fontsource/inter": "^5.2.8",
-    "@fontsource/lora": "^5.2.8",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.0",
     "astro": "^5.17.1",

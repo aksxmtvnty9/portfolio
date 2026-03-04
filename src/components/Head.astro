@@ -1,5 +1,4 @@
 ---
-import "../styles/font.css";
 import "../styles/global.css";
 import { SITE } from "@consts";
 
@@ -22,6 +21,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
   <!-- Canonical URL -->
   <link rel="canonical" href={canonicalURL} />
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="/fonts.css" />
 
   <!-- Primary Meta Tags -->
   <title>{title}</title>
